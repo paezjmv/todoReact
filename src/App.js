@@ -14,9 +14,11 @@ const defaultTodos = [
 ];
 
 function App() {
+  //>>> Definicion de Estados
   const [todos, setTodos] = React.useState(defaultTodos);
   const [searchValue, setSearchValue] = React.useState('');
 
+  //>>> Estados derivados
   const completedTodos = todos.filter(
       todo => !!todo.completed
     ).length;
@@ -24,6 +26,7 @@ function App() {
 
   console.log('Los usuarios buscan todos de ' + searchValue)
 
+  //>>> Estructura Html
   return (
     <React.Fragment>
 
