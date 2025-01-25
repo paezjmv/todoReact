@@ -35,7 +35,15 @@ function App() {
     } 
   )
 
-  console.log('Los usuarios buscan todos de ' + searchValue)
+  // Estado dervidado para busqueda de todoItems marcados como realizados
+  const completeTodo = (text) => {
+    const newTodos = [...todos]
+    const todoIndex = newTodos.findIndex(
+      (todo) => todo.text == text
+    )
+    newTodos[todoIndex].completed = true
+    setTodos(newTodos)
+  }  
 
   //>>> Estructura Html
   return (
@@ -43,7 +51,8 @@ function App() {
 
       <TodoCounter 
         completed={completedTodos} 
-        total={totalTodos}/>
+        total={totalTodos}
+      />
       <TodoSearch
         searchValue={searchValue}
         setSearchValue={setSearchValue}
@@ -55,6 +64,7 @@ function App() {
             Key={todo.text} 
             text={todo.text}
             completed={todo.completed}
+            onComplete={() => completeTodo(todo.text)}
           />
         ))}
       </TodoList>
