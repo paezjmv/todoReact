@@ -18,11 +18,22 @@ function App() {
   const [todos, setTodos] = React.useState(defaultTodos);
   const [searchValue, setSearchValue] = React.useState('');
 
-  //>>> Estados derivados
+  //>>> Estados derivados <<<<<<
+
+  // Estado derivado para contador de tareas
   const completedTodos = todos.filter(
       todo => !!todo.completed
     ).length;
   const totalTodos = todos.length;
+
+  // Estado derivado para filtrado de busqueda
+  const searchedTodos = todos.filter(
+    (todo) => {
+      const todoText = todo.text.toLowerCase()
+      const searchText = searchValue.toLowerCase()
+      return todoText.includes(searchText)
+    } 
+  )
 
   console.log('Los usuarios buscan todos de ' + searchValue)
 
@@ -39,7 +50,7 @@ function App() {
       />
 
       <TodoList>
-        {defaultTodos.map(todo => (
+        {searchedTodos.map(todo => (
           <TodoItem 
             Key={todo.text} 
             text={todo.text}
