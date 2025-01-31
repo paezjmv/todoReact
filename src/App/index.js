@@ -1,9 +1,6 @@
 import React from 'react';
-import { TodoCounter } from './TodoCounter.js';
-import { TodoSearch } from './TodoSearch.js'
-import { TodoList } from './TodoList.js'
-import { TodoItem } from './TodoItem.js'
-import { CreateTodoButton } from './CreateTodoButton.js'
+import { AppUI } from './AppUI.js'
+import { useLocalStorage } from './useLocalStorage.js'
 
 /*const defaultTodos = [
   { text: 'Cortar cebolla', completed: true},
@@ -16,31 +13,6 @@ import { CreateTodoButton } from './CreateTodoButton.js'
 localStorage.setItem('TODOS_V1', JSON.stringify(defaultTodos)
 localStorage.removeItem('TODOS_V1')*/
 
-
-// Custom Hook: useLocalStorage
-function useLocalStorage(itemName, initialValue) {
-  // Trabajando en logica para el localStorage
-  const localStorageItem = localStorage.getItem(itemName)
-
-  let parsedItem
-
-  if(!localStorageItem){
-    localStorage.setItem('TODOS_V1', JSON.stringify([initialValue]));
-    parsedItem = [initialValue];
-  } else {
-    parsedItem = JSON.parse(localStorageItem)
-  }
-
-  const [item, setItem] = React.useState(parsedItem)
-
-  // Guardar tareas en el state y localStorage
-  const saveItem =  (newItem) => {
-    localStorage.setItem('TODOS_V1', JSON.stringify(newItem))
-    setItem(newItem)
-  }
-
-  return [item, saveItem]
-}
 
 function App() {  
   //>>> Definicion de Estados
@@ -68,7 +40,7 @@ function App() {
   const completeTodo = (text) => {
     const newTodos = [...todos]
     const todoIndex = newTodos.findIndex(
-      (todo) => todo.text == text
+      (todo) => todo.text === text
     )
     newTodos[todoIndex].completed = true
     saveTodos(newTodos)
@@ -78,40 +50,23 @@ function App() {
   const deleteTodo = (text) => {
     const newTodos = [...todos]
     const todoIndex = newTodos.findIndex(
-      (todo) => todo.text == text
+      (todo) => todo.text === text
     )
     newTodos.splice(todoIndex, 1)
     saveTodos(newTodos)
   }   
 
-  //>>> Estructura Html
   return (
-    <React.Fragment>
-
-      <TodoCounter 
-        completed={completedTodos} 
-        total={totalTodos}
-      />
-      <TodoSearch
+      <AppUI
+        completedTodos={completedTodos}
+        totalTodos={totalTodos}
         searchValue={searchValue}
         setSearchValue={setSearchValue}
+        searchedTodos={searchedTodos}
+        completeTodo={completeTodo}
+        deleteTodo={deleteTodo}
       />
-
-      <TodoList>
-        {searchedTodos.map(todo => (
-          <TodoItem 
-            Key={todo.text} 
-            text={todo.text}
-            completed={todo.completed}
-            onComplete={() => completeTodo(todo.text)}
-            onDelete={() => deleteTodo(todo.text)}
-          />
-        ))}
-      </TodoList>
-
-      <CreateTodoButton />
-    </React.Fragment>
-  );
+    )
 }
 
 export default App;
