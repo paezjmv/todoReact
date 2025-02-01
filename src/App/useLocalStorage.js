@@ -8,8 +8,8 @@ function useLocalStorage(itemName, initialValue) {
   let parsedItem
 
   if(!localStorageItem){
-    localStorage.setItem('TODOS_V1', JSON.stringify([initialValue]));
-    parsedItem = [initialValue];
+    localStorage.setItem(itemName, JSON.stringify(initialValue));
+    parsedItem = initialValue;
   } else {
     parsedItem = JSON.parse(localStorageItem)
   }
@@ -18,7 +18,7 @@ function useLocalStorage(itemName, initialValue) {
 
   // Guardar tareas en el state y localStorage
   const saveItem =  (newItem) => {
-    localStorage.setItem('TODOS_V1', JSON.stringify(newItem))
+    localStorage.setItem(itemName, JSON.stringify(newItem))
     setItem(newItem)
   }
 
