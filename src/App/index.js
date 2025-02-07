@@ -16,7 +16,12 @@ localStorage.removeItem('TODOS_V1')*/
 
 function App() {  
   //>>> Definicion de Estados
-  const [todos, saveTodos] = useLocalStorage('TODOS_V1', []);
+  const {
+    item: todos
+    saveItem: savetodos,
+    loading,
+    error
+  } = useLocalStorage('TODOS_V1', []);
   const [searchValue, setSearchValue] = React.useState('');
 
   //>>> Estados derivados <<<<<<
@@ -58,6 +63,8 @@ function App() {
 
   return (
       <AppUI
+        loading={loading}
+        error={error}
         completedTodos={completedTodos}
         totalTodos={totalTodos}
         searchValue={searchValue}

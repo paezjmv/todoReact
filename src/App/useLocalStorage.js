@@ -3,18 +3,27 @@ import React from 'react'
 // Custom Hook: useLocalStorage
 function useLocalStorage(itemName, initialValue) {
   // Trabajando en logica para el localStorage
-  const localStorageItem = localStorage.getItem(itemName)
+  const [item, setItem] = React.useState(initialValue)
 
-  let parsedItem
 
-  if(!localStorageItem){
-    localStorage.setItem(itemName, JSON.stringify(initialValue));
-    parsedItem = initialValue;
-  } else {
-    parsedItem = JSON.parse(localStorageItem)
-  }
+  //Creando estado de carga/error
+  const [loading, setLoading] = React.useState(true)
+  const [error, setError] = React.useState(false)
+  
 
-  const [item, setItem] = React.useState(parsedItem)
+  //Creando useEffect para el recardago de Tareas
+  React.useEffect(() => {
+    const localStorageItem = localStorage.getItem(itemName)
+
+    let parsedItem
+
+    if(!localStorageItem){
+      localStorage.setItem(itemName, JSON.stringify(initialValue));
+      parsedItem = initialValue;
+    } else {
+      parsedItem = JSON.parse(localStorageItem)
+    }
+  })
 
   // Guardar tareas en el state y localStorage
   const saveItem =  (newItem) => {
@@ -22,7 +31,12 @@ function useLocalStorage(itemName, initialValue) {
     setItem(newItem)
   }
 
-  return [item, saveItem]
+  return {
+    item,
+    saveItem,
+    loading,
+    error
+  }
 }
 
 export { useLocalStorage }
