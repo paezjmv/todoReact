@@ -17,8 +17,8 @@ localStorage.removeItem('TODOS_V1')*/
 function App() {  
   //>>> Definicion de Estados
   const {
-    item: todos
-    saveItem: savetodos,
+    item: todos,
+    saveItem: saveTodos,
     loading,
     error
   } = useLocalStorage('TODOS_V1', []);
