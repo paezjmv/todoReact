@@ -12,6 +12,7 @@ function TodoProvider({ children }) {
     error
   } = useLocalStorage('TODOS_V1', []);
   const [searchValue, setSearchValue] = React.useState('');
+  const [openModal, setOpenModal] = React.useState(true);
 
   //>>> Estados derivados <<<<<<
 
@@ -61,7 +62,9 @@ function TodoProvider({ children }) {
 	      setSearchValue,
 	      searchedTodos,
 	      completeTodo,
-	      deleteTodo			
+	      deleteTodo,
+        openModal,
+        setOpenModal			
 		}}>
 			{children}
 		</TodoContext.Provider>
