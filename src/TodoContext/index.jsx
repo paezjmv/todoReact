@@ -12,7 +12,7 @@ function TodoProvider({ children }) {
     error
   } = useLocalStorage('TODOS_V1', []);
   const [searchValue, setSearchValue] = React.useState('');
-  const [openModal, setOpenModal] = React.useState(true);
+  const [openModal, setOpenModal] = React.useState(false);
 
   //>>> Estados derivados <<<<<<
 
@@ -30,6 +30,15 @@ function TodoProvider({ children }) {
       return todoText.includes(searchText)
     } 
   )
+
+  const addTodo = (text) => {
+    const newTodos = [...todos]
+    newTodos.push({
+      text,
+      completed: false
+    })
+    saveTodos(newTodos)
+  }
 
   // Estado dervidado: marcado de tareas realizadas
   const completeTodo = (text) => {
@@ -61,6 +70,7 @@ function TodoProvider({ children }) {
 	      searchValue,
 	      setSearchValue,
 	      searchedTodos,
+        addTodo,
 	      completeTodo,
 	      deleteTodo,
         openModal,
